@@ -65,4 +65,4 @@ const totalCost = () => {
       console.log(result);
     });
 };
-totalCost();
+// totalCost();
