@@ -48,3 +48,21 @@ const searchAfterDate = daysAgo => {
     });
 };
 // searchAfterDate(30);
+
+// 4. Get the total cost for each category
+// The function will query the shopping_list
+// table using Knex methods and select the
+// rows grouped by their category and showing
+// the total price for each category.
+
+const totalCost = () => {
+  dbResults = knexInstance
+    .select('category')
+    .sum('price as total')
+    .from('shopping_list')
+    .groupBy('category')
+    .then(result => {
+      console.log(result);
+    });
+};
+totalCost();
