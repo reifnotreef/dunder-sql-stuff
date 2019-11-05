@@ -6,7 +6,7 @@ const knexInstance = knex({
   connection: process.env.DB_URL,
 });
 
-const searchDb = queryInput => {
+const searchName = queryInput => {
   dbResults = knexInstance
     .select('*')
     .from('shopping_list')
@@ -15,4 +15,18 @@ const searchDb = queryInput => {
       console.log(result);
     });
 };
-searchDb('facon');
+// searchName('facon');
+
+const searchPaginated = pageNumber => {
+  const productsPerPage = 6;
+  const offset = productsPerPage * (pageNumber - 1);
+  dbResults = knexInstance
+    .select('*')
+    .from('shopping_list')
+    .limit(productsPerPage)
+    .offset(offset)
+    .then(result => {
+      console.log(result);
+    });
+};
+// searchPaginated(2);
