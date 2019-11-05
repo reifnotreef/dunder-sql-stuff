@@ -6,6 +6,7 @@ const knexInstance = knex({
   connection: process.env.DB_URL,
 });
 
+// 1. Get all items that contain text
 const searchName = queryInput => {
   dbResults = knexInstance
     .select('*')
@@ -17,6 +18,7 @@ const searchName = queryInput => {
 };
 // searchName('facon');
 
+// 2. Get all items paginated
 const searchPaginated = pageNumber => {
   const productsPerPage = 6;
   const offset = productsPerPage * (pageNumber - 1);
@@ -30,3 +32,19 @@ const searchPaginated = pageNumber => {
     });
 };
 // searchPaginated(2);
+
+// 3. Get all items added after date
+const searchAfterDate = daysAgo => {
+  dbResults = knexInstance
+    .select('*')
+    .where(
+      'date_added',
+      '>',
+      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+    )
+    .from('shopping_list')
+    .then(result => {
+      console.log(result);
+    });
+};
+// searchAfterDate(30);
