@@ -70,14 +70,11 @@ describe('ShoppingListServices does what it should', () => {
       const idToUpdate = 3;
       const newItemData = {
         name: '$1 Bob',
-        price: '1.00',
-        date_added: new Date(),
-        checked: true,
       };
       return ShoppingListServices.updateItem(db, idToUpdate, newItemData).then(
         () => {
           return ShoppingListServices.getAll(db).then(actual => {
-            expect(actual[3].name).eql(newItemData.name);
+            expect(actual[idToUpdate].name).eql(newItemData.name);
           });
         }
       );
