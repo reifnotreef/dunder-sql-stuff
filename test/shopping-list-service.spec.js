@@ -89,7 +89,7 @@ describe('ShoppingListServices does what it should', () => {
       ShoppingListServices.insertItem(db, newItem).then(() => {
         () => {
           return ShoppingListServices.getAll(db).then(actual => {
-            expect(actual[99].name).eql('$1 Bob');
+            expect(actual[99].name).eql(newItem.name);
           });
         };
       });
