@@ -47,7 +47,6 @@ describe('ShoppingListServices does what it should', () => {
   after(() => db.destroy());
 
   context('shopping_list has data', () => {
-    // insert testItems into shopping_list
     beforeEach(() => db.into('shopping_list').insert(testItems));
 
     it(`getAll() resolves all from 'shopping_list'`, () => {
