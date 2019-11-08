@@ -1,14 +1,14 @@
 require('dotenv').config();
 const knex = require('knex');
 
-const knexInstance = knex({
+const db = knex({
   client: 'pg',
   connection: process.env.DB_URL,
 });
 
 // 1. Get all items that contain text
 const searchName = queryInput => {
-  dbResults = knexInstance
+  dbResults = db
     .select('*')
     .from('shopping_list')
     .whereRaw(`LOWER(name) LIKE ?`, [`%${queryInput}%`])
@@ -22,7 +22,7 @@ const searchName = queryInput => {
 const searchPaginated = pageNumber => {
   const productsPerPage = 6;
   const offset = productsPerPage * (pageNumber - 1);
-  dbResults = knexInstance
+  dbResults = db
     .select('*')
     .from('shopping_list')
     .limit(productsPerPage)
@@ -35,13 +35,9 @@ const searchPaginated = pageNumber => {
 
 // 3. Get all items added after date
 const searchAfterDate = daysAgo => {
-  dbResults = knexInstance
+  dbResults = db
     .select('*')
-    .where(
-      'date_added',
-      '>',
-      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
-    )
+    .where('date_added', '>', db.raw(`now() - '?? days'::INTERVAL`, daysAgo))
     .from('shopping_list')
     .then(result => {
       console.log(result);
@@ -56,7 +52,7 @@ const searchAfterDate = daysAgo => {
 // the total price for each category.
 
 const totalCost = () => {
-  dbResults = knexInstance
+  dbResults = db
     .select('category')
     .sum('price as total')
     .from('shopping_list')
